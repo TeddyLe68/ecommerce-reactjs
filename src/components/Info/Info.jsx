@@ -5,20 +5,22 @@ import styles from "./styles.module.scss";
 function Info() {
   const { container } = styles;
   return (
-    <MainLayout>
-      <div className={container}>
-        {dataInfo.map((item) => {
-          return (
-            <InfoCard
-              key={item.content}
-              content={item.title}
-              description={item.description}
-              src={item.src}
-            />
-          );
-        })}
-      </div>
-    </MainLayout>
+    <div>
+      <MainLayout>
+        <div className={container}>
+          {dataInfo.map((item) => {
+            return (
+              <InfoCard
+                key={item.content}
+                content={item.title}
+                description={item.description}
+                src={item.src}
+              />
+            );
+          })}
+        </div>
+      </MainLayout>
+    </div>
   );
 }
 
