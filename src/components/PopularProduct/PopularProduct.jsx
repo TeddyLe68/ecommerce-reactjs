@@ -5,11 +5,12 @@ import PropTypes from "prop-types";
 
 function PopularProduct({ data }) {
   const { container } = styles;
+  const limitedData = data.slice(0, 8);
   return (
     <>
       <MainLayout>
         <div className={container}>
-          {data.map((item) => (
+          {limitedData.map((item) => (
             <ProductItem
               key={item._id}
               src={item.images[0]}
