@@ -6,7 +6,10 @@ import Logo from "@icons/images/logo.png";
 import reloadIcon from "@icons/svgs/reloadIcon.svg";
 import heartIcon from "@icons/svgs/heart.svg";
 import cartIcon from "@icons/svgs/cartIcon.svg";
-
+import useScrollHandling from "@/hooks/useScrollHandling";
+import { useContext, useEffect, useState } from "react";
+import classNames from "classnames";
+import { SideBarContext } from "@/contexts/SideBarProvider";
 function MyHeader() {
   const {
     containerBoxIcon,
@@ -14,9 +17,24 @@ function MyHeader() {
     containerBox,
     containerHeader,
     constainer,
+    fixedHeader,
+    topHeader,
   } = styles;
+
+  const { scrollPosition } = useScrollHandling();
+  const [fixedPosition, setFixedPosition] = useState(false);
+
+  const { isOpen, setIsOpen } = useContext(SideBarContext);
+  console.log(isOpen);
+  useEffect(() => {
+    setFixedPosition(scrollPosition > 80 ? true : false);
+  }, [scrollPosition]);
   return (
-    <div className={constainer}>
+    <div
+      className={classNames(constainer, topHeader, {
+        [fixedHeader]: fixedPosition,
+      })}
+    >
       <div className={containerHeader}>
         <div className={containerBox}>
           <div className={containerBoxIcon}>
@@ -33,6 +51,7 @@ function MyHeader() {
                   key={item.content}
                   content={item.content}
                   href={item.href}
+                  setIsOpen={setIsOpen}
                 />
               );
             })}
@@ -53,6 +72,7 @@ function MyHeader() {
                   key={item.content}
                   content={item.content}
                   href={item.href}
+                  setIsOpen={setIsOpen}
                 />
               );
             })}

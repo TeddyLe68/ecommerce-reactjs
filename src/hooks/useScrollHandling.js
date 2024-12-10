@@ -1,11 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const useTranlateXImage = () => {
+const useScrollHandling = () => {
   const [scrollDirection, setScrollDirection] = useState(null);
   const previousScrollPosition = useRef(0);
-  const [translateXPosition, setTranslateXPosition] = useState(80);
   const [scrollPosition, setScrollPosition] = useState(0);
-
   const scrollTracking = () => {
     const currentScrollPosition = window.pageYOffset;
 
@@ -20,27 +18,11 @@ const useTranlateXImage = () => {
 
     setScrollPosition(currentScrollPosition);
   };
-
-  const handleTranslateX = () => {
-    if (scrollDirection === "down" && scrollPosition >= 1400) {
-      setTranslateXPosition(
-        translateXPosition <= 0 ? 0 : translateXPosition - 1
-      );
-    } else if (scrollDirection === "up") {
-      setTranslateXPosition(
-        translateXPosition >= 80 ? 80 : translateXPosition + 1
-      );
-    }
-  };
   useEffect(() => {
     window.addEventListener("scroll", scrollTracking);
 
     return () => window.removeEventListener("scroll", scrollTracking);
   }, []);
-  useEffect(() => {
-    handleTranslateX();
-  }, [scrollPosition]);
-  return { translateXPosition, handleTranslateX, scrollPosition };
+  return { scrollDirection, scrollPosition };
 };
-
-export default useTranlateXImage;
+export default useScrollHandling;

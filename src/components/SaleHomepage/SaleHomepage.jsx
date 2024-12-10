@@ -1,6 +1,6 @@
 import Button from "@components/Button/Button";
 import styles from "./styles.module.scss";
-import useTranlateXImage from "./translateXImage";
+import useTranlateXImage from "@/hooks/useTranslateXImage";
 
 function SaleHomepage() {
   const { container, title, des, boxBtn, boxImg } = styles;
