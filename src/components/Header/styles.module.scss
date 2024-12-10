@@ -29,7 +29,10 @@
   height: 83px;
 }
 .containerBoxIcon{
-  @include mixins.flex_box_custom(center,center, 10px)
+  @include mixins.flex_box_custom(center,center, 20px);
+  &:hover{
+    cursor: pointer;
+  }
 }
 .containerBox {
   @include mixins.flex_box_custom(center,center, 20px)

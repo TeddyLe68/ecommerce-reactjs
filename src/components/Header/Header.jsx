@@ -3,9 +3,9 @@ import { dataBoxIcon, dataMenu } from "./constants.js";
 import Menu from "./Menu/Menu.jsx";
 import styles from "./styles.module.scss";
 import Logo from "@icons/images/logo.png";
-import reloadIcon from "@icons/svgs/reloadIcon.svg";
-import heartIcon from "@icons/svgs/heart.svg";
-import cartIcon from "@icons/svgs/cartIcon.svg";
+import { TfiReload } from "react-icons/tfi";
+import { BsHeart } from "react-icons/bs";
+import { PiShoppingCart } from "react-icons/pi";
 import useScrollHandling from "@/hooks/useScrollHandling";
 import { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
@@ -23,9 +23,11 @@ function MyHeader() {
 
   const { scrollPosition } = useScrollHandling();
   const [fixedPosition, setFixedPosition] = useState(false);
-
-  const { isOpen, setIsOpen } = useContext(SideBarContext);
-  console.log(isOpen);
+  const { setIsOpen, setType } = useContext(SideBarContext);
+  const handleOpenSiderBar = (type) => {
+    setIsOpen(true);
+    setType(type);
+  };
   useEffect(() => {
     setFixedPosition(scrollPosition > 80 ? true : false);
   }, [scrollPosition]);
@@ -51,7 +53,6 @@ function MyHeader() {
                   key={item.content}
                   content={item.content}
                   href={item.href}
-                  setIsOpen={setIsOpen}
                 />
               );
             })}
@@ -72,15 +73,23 @@ function MyHeader() {
                   key={item.content}
                   content={item.content}
                   href={item.href}
-                  setIsOpen={setIsOpen}
                 />
               );
             })}
           </div>
           <div className={containerBoxIcon}>
-            <img width={26} height={26} src={reloadIcon} alt="reloadIcon" />
-            <img width={26} height={26} src={heartIcon} alt="heartIcon" />
-            <img width={26} height={26} src={cartIcon} alt="cartIcon" />
+            <TfiReload
+              style={{ fontSize: "20px" }}
+              onClick={() => handleOpenSiderBar("compare")}
+            />
+            <BsHeart
+              style={{ fontSize: "20px" }}
+              onClick={() => handleOpenSiderBar("wishlist")}
+            />
+            <PiShoppingCart
+              style={{ fontSize: "26px" }}
+              onClick={() => handleOpenSiderBar("cart")}
+            />
           </div>
         </div>
       </div>
