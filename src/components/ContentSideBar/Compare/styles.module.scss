@@ -1,3 +1,14 @@
-.container{
-  padding: 30px 20px 0 20px;
+@use "@styles/mixins.module.scss" as mixins;
+@use "@styles/variables.module.scss" as variables;
+.container {
+  @include mixins.flex_box_custom(space-between, space-between, 0px);
+  flex-direction: column;
+  padding: 30px 20px;
+  height: 90%;
+  .boxContent {
+  }
+  Button{
+    border-radius: 5px;
+    width: 100%;
+  }
 }

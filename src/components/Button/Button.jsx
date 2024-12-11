@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import styles from "./styles.module.scss";
-import PropTypes from "prop-types";
 
-function Button({ content, isPrimary = true }) {
+function Button({ content, isPrimary = true, ...props }) {
   const { btn, primaryBtn, secondaryBtn } = styles;
   return (
     <button
@@ -10,14 +9,11 @@ function Button({ content, isPrimary = true }) {
         [primaryBtn]: isPrimary,
         [secondaryBtn]: !isPrimary,
       })}
+      {...props}
     >
       {content}
     </button>
   );
 }
-Button.propTypes = {
-  content: PropTypes.string.isRequired,
-  isPrimary: PropTypes.bool,
-};
 
 export default Button;
