@@ -44,6 +44,7 @@ axiosClient.interceptors.response.use(
       } catch (error) {
         Cookies.remove("token");
         Cookies.remove("refreshToken");
+        Cookies.remove("userId");
         return Promise.reject(err);
       }
     }

@@ -7,11 +7,15 @@ import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "@/contexts/ToastProvider";
 import { register, signIn, getInfo } from "@/apis/authService";
 import Cookies from "js-cookie";
+import { SideBarContext } from "@/contexts/SideBarProvider";
+import { StoreContext } from "@/contexts/storeProvider";
 function Login() {
   const { container, title, boxRememberMe, lostPw } = styles;
   const [isRegister, setIsRegister] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useContext(ToastContext);
+  const { setIsOpen } = useContext(SideBarContext);
+  const { setUserId } = useContext(StoreContext);
 
   const handleToggle = () => {
     setIsRegister(!isRegister);
@@ -43,32 +47,35 @@ function Login() {
               position: "bottom-right",
             });
             setIsLoading(false);
+            setIsOpen(false);
           })
           .catch((err) => {
-            toast.error(err.response.data.message, {
+            setIsLoading(false);
+            toast.error("Sign up failed", {
               position: "bottom-right",
             });
-            setIsLoading(false);
           });
+        // window.location.reload();
       }
       if (!isRegister) {
         await signIn({ username, password })
           .then((res) => {
             setIsLoading(false);
             const { id, token, refreshToken } = res.data;
+            setUserId(id);
             Cookies.set("token", token);
             Cookies.set("refreshToken", refreshToken);
+            Cookies.set("userId", id);
+            toast.success("Sign in successfully", { position: "bottom-right" });
+            setIsOpen(false);
           })
           .catch((err) => {
             setIsLoading(false);
+            toast.error("Sign in failed", { position: "bottom-right" });
           });
       }
     },
   });
-
-  useEffect(() => {
-    getInfo();
-  }, []);
   return (
     <div className={container}>
       <div className={title}>{isRegister ? "SIGN UP" : "SIGN IN"}</div>
