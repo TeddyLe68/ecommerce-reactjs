@@ -29,18 +29,28 @@ function ProductItem({
     content,
     containerItem,
     leftBtn,
+    isActiveSize,
+    btnClear,
   } = styles;
-  const { isShowGrid } = useContext(OurShopContext);
-  // const ourShopContext = useContext(OurShopContext);
-  // const [isShowGrid, setIsShowGrid] = useState(ourShopContext?.isShowGrid);
-  console.log(isShowGrid);
-  // useEffect(() => {
-  //   if (isHomePage) {
-  //     setIsShowGrid(true);
-  //   } else {
-  //     setIsShowGrid(false);
-  //   }
-  // }, [isHomePage, ourShopContext?.isShowGrid]);
+  // const { isShowGrid } = useContext(OurShopContext);
+  // console.log(isShowGrid);
+  const [sizeChoose, setSizeChoose] = useState("");
+  const ourShopContext = useContext(OurShopContext);
+  const [isShowGrid, setIsShowGrid] = useState(ourShopContext?.isShowGrid);
+  useEffect(() => {
+    if (isHomePage) {
+      setIsShowGrid(true);
+    } else {
+      setIsShowGrid(ourShopContext?.isShowGrid);
+    }
+  }, [isHomePage, ourShopContext?.isShowGrid]);
+
+  const handleChooseSize = (size) => {
+    setSizeChoose(size);
+  };
+  const handleClearSize = () => {
+    setSizeChoose("");
+  };
   return (
     <div className={isShowGrid ? "" : containerItem}>
       <div className={boxImg}>
@@ -67,11 +77,22 @@ function ProductItem({
           <div className={boxSize}>
             {details.size.map((item, index) => {
               return (
-                <div key={index} className={size}>
+                <div
+                  key={index}
+                  className={cls(size, {
+                    [isActiveSize]: sizeChoose === item.name,
+                  })}
+                  onClick={() => handleChooseSize(item.name)}
+                >
                   {item.name}
                 </div>
               );
             })}
+          </div>
+        )}
+        {sizeChoose && (
+          <div className={btnClear} onClick={() => handleClearSize()}>
+            Clear
           </div>
         )}
         <div className={cls(title, { [textCenter]: !isHomePage })}>{name}</div>
