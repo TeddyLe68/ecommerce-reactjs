@@ -3,8 +3,13 @@ import { PiShoppingCart } from "react-icons/pi";
 import ItemProduct from "../components/ItemProduct/ItemProduct";
 import styles from "./styles.module.scss";
 import Button from "@components/Button/Button";
+import { SideBarContext } from "@/contexts/SideBarProvider";
+import { useContext } from "react";
 function Cart() {
   const { container, total, boxBtn } = styles;
+
+  const { listProductCart } = useContext(SideBarContext);
+
   return (
     <div className={container}>
       <div>
@@ -12,7 +17,19 @@ function Cart() {
           icon={<PiShoppingCart style={{ fontSize: "30px" }} />}
           title={"CART"}
         />
-        <ItemProduct />
+        {listProductCart.map((item, index) => {
+          return (
+            <ItemProduct
+              key={index}
+              src={item.images[0]}
+              nameProduct={item.name}
+              priceProduct={item.price}
+              skuProduct={item.sku}
+              sizeProduct={item.size}
+              quantity={item.quantity}
+            />
+          );
+        })}
       </div>
       <div>
         <div className={total}>

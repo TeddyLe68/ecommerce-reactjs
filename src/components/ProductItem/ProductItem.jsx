@@ -6,6 +6,11 @@ import cls from "classnames";
 import Button from "@components/Button/Button";
 import { useContext, useEffect, useState } from "react";
 import { OurShopContext } from "@/contexts/OurShopProvider";
+import Cookies from "js-cookie";
+import { SideBarContext } from "@/contexts/SideBarProvider";
+import { ToastContext } from "@/contexts/ToastProvider";
+import { addProductToCart } from "@/apis/cartService";
+import LoadingTextCommon from "@components/LoadingTextCommon/LoadingTextCommon";
 
 function ProductItem({
   src,
@@ -32,11 +37,18 @@ function ProductItem({
     isActiveSize,
     btnClear,
   } = styles;
+
   // const { isShowGrid } = useContext(OurShopContext);
   // console.log(isShowGrid);
   const [sizeChoose, setSizeChoose] = useState("");
   const ourShopContext = useContext(OurShopContext);
   const [isShowGrid, setIsShowGrid] = useState(ourShopContext?.isShowGrid);
+  const userId = Cookies.get("userId");
+  const { setIsOpen, setType, handleGetListProductCart, listProductCart } =
+    useContext(SideBarContext);
+  const { toast } = useContext(ToastContext);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (isHomePage) {
       setIsShowGrid(true);
@@ -48,8 +60,45 @@ function ProductItem({
   const handleChooseSize = (size) => {
     setSizeChoose(size);
   };
+
   const handleClearSize = () => {
     setSizeChoose("");
+  };
+
+  const handleAddToCart = () => {
+    if (!userId) {
+      setIsOpen(true);
+      setType("login");
+      toast.warning("Please login to add product to cart!", {
+        position: "bottom-right",
+      });
+      return;
+    }
+    if (!sizeChoose) {
+      toast.warning("Please choose size!", {
+        position: "bottom-right",
+      });
+      return;
+    }
+    const data = {
+      userId,
+      productId: details._id,
+      quantity: 1,
+      size: sizeChoose,
+    };
+    setIsLoading(true);
+    addProductToCart(data)
+      .then((res) => {
+        setIsOpen(true);
+        setType("cart");
+        toast.success("Add product to cart successfully!");
+        setIsLoading(false);
+        handleGetListProductCart("cart", userId);
+      })
+      .catch((err) => {
+        toast.error("Add product to cart failed!");
+        setIsLoading(false);
+      });
   };
   return (
     <div className={isShowGrid ? "" : containerItem}>
@@ -109,7 +158,10 @@ function ProductItem({
         </div>
         {!isHomePage && (
           <div className={cls(boxBtn, { [leftBtn]: !isShowGrid })}>
-            <Button content={"ADD TO CART"} />
+            <Button
+              content={isLoading ? <LoadingTextCommon /> : "ADD TO CART"}
+              onClick={handleAddToCart}
+            />
           </div>
         )}
       </div>
