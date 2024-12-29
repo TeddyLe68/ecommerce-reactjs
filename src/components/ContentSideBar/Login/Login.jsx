@@ -14,7 +14,7 @@ function Login() {
   const [isRegister, setIsRegister] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useContext(ToastContext);
-  const { setIsOpen } = useContext(SideBarContext);
+  const { setIsOpen, handleGetListProductCart } = useContext(SideBarContext);
   const { setUserId } = useContext(StoreContext);
 
   const handleToggle = () => {
@@ -68,6 +68,7 @@ function Login() {
             Cookies.set("userId", id);
             toast.success("Sign in successfully", { position: "bottom-right" });
             setIsOpen(false);
+            handleGetListProductCart("cart", id);
           })
           .catch((err) => {
             setIsLoading(false);
