@@ -3,6 +3,7 @@ import MyHeader from "@components/Header/Header";
 import Steps from "./components/steps/Steps";
 import Content from "./components/contents/Content";
 import styles from "./styles.module.scss";
+import MainLayout from "@components/Layout/Layout";
 
 function Cart() {
   const { container } = styles;
@@ -11,7 +12,9 @@ function Cart() {
       <MyHeader />
       <div className={container}>
         <Steps />
-        <Content />
+        <MainLayout>
+          <Content />
+        </MainLayout>
       </div>
       <MyFooter />
     </>
