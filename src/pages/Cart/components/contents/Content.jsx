@@ -1,4 +1,5 @@
 import styles from "../../styles.module.scss";
+import CartSummary from "./CartSummary";
 import CartTable from "./CartTable";
 function Content() {
   const { containerContent } = styles;
@@ -7,7 +8,7 @@ function Content() {
       <div>
         <CartTable />
       </div>
-      <div>Thanh toan</div>
+      <CartSummary />
     </div>
   );
 }
