@@ -213,6 +213,35 @@
     color: variables.$thr_color;
     margin-top: 10px;
   }
+  .boxFooter{
+    @include mixins.flex_box_custom(space-between,center, 0px);
+    margin-top: 15px;
+    .boxCoupon{
+      @include mixins.flex_box_custom(flex-start,center, 0px);
+      input{
+        border: 1px solid #e1e1e1;
+        padding: 8px 15px;
+        width: 300px;
+        outline: none;
+      }
+      button{
+        height: 36px;
+        border-radius: 0px;
+        padding: 0px 10px;
+        font-size: 12px;
+        width: 36px;
+      }
+    }
+    .boxBtnDelete{
+      button{
+        height: 36px;
+        font-size: 12px;
+        padding: 0px 30px;
+        text-transform: uppercase;
+      }
+    }
+  }
+
 }
 
 
