@@ -1,41 +1,23 @@
 import React from "react";
 import styles from "../../styles.module.scss";
 import SelectBox from "@/pages/OurShop/components/SelectBox";
+import LoadingCart from "../Loading";
 
-function CartTable() {
+function CartTable({ listProductCart, getData, isLoading, getDataDelete }) {
   const { cartTable } = styles;
-  const cartItems = [
-    {
-      id: 1,
-      name: "Amet faucibus nunc",
-      size: "M",
-      price: 1879.99,
-      sku: 87654,
-      quantity: 1,
-      image:
-        "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg",
-    },
-    {
-      id: 2,
-      name: "Consectetur nibh at",
-      size: "M",
-      price: 119.99,
-      sku: 12349,
-      quantity: 1,
-      image:
-        "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg",
-    },
-  ];
   const showOptions = [
     { value: 1, label: 1 },
     { value: 2, label: 2 },
     { value: 3, label: 3 },
     { value: 4, label: 4 },
     { value: 5, label: 5 },
+    { value: 6, label: 6 },
+    { value: 7, label: 7 },
   ];
 
-  const getValueSelect = (value) => {
-    console.log(value);
+  const getValueSelect = (userId, productId, quantity, size) => {
+    const data = { userId, productId, quantity, size, isMultiple: true };
+    getData(data);
   };
   return (
     <div className={cartTable}>
@@ -51,23 +33,38 @@ function CartTable() {
           </tr>
         </thead>
         <tbody>
-          {cartItems.map((item) => (
+          {listProductCart.map((item) => (
             <tr key={item.id}>
               <td>
-                <img src={item.image} alt={item.name} />
+                <img src={item.images[0]} alt={item.name} />
                 <div>
                   <p>{item.name}</p>
                   <p>Size: {item.size}</p>
                 </div>
               </td>
-              <td>🗑️</td>
+              <td>
+                <div
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    getDataDelete({
+                      userId: item.userId,
+                      productId: item.productId,
+                    })
+                  }
+                >
+                  🗑️
+                </div>
+              </td>
               <td>${item.price.toFixed(2)}</td>
               <td>{item.sku}</td>
               <td>
                 <SelectBox
                   options={showOptions}
-                  getValue={getValueSelect}
+                  getValue={(e) =>
+                    getValueSelect(item.userId, item.productId, e, item.size)
+                  }
                   type="show"
+                  defaultValue={item.quantity}
                 />
               </td>
               <td>${(item.price * item.quantity).toFixed(2)}</td>
@@ -75,6 +72,7 @@ function CartTable() {
           ))}
         </tbody>
       </table>
+      {isLoading && <LoadingCart />}
     </div>
   );
 }

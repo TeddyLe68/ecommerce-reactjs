@@ -31,7 +31,11 @@ function Cart() {
       return acc + item.total;
     }, 0)
     .toFixed(2);
-  console.log(subTotal);
+
+  const handleNavigateToCart = () => {
+    navigate("/cart");
+    setIsOpen(false);
+  };
   return (
     <div className={cls(container, { [isEmpty]: !listProductCart.length })}>
       <HeaderSidebar
@@ -67,7 +71,7 @@ function Cart() {
               <p>${subTotal}</p>
             </div>
             <div className={boxBtn}>
-              <Button content={"VIEW CART"} />
+              <Button onClick={handleNavigateToCart} content={"VIEW CART"} />
               <Button content={"CHECKOUT"} isPrimary={false} />
             </div>
           </div>
