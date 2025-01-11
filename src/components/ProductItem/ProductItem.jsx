@@ -1,7 +1,4 @@
 import styles from "./styles.module.scss";
-import reloadIcon from "@icons/svgs/reloadIcon.svg";
-import heartIcon from "@icons/svgs/heart.svg";
-import cartIcon from "@icons/svgs/cartIcon.svg";
 import cls from "classnames";
 import Button from "@components/Button/Button";
 import { useContext, useEffect, useState } from "react";
@@ -11,6 +8,10 @@ import { SideBarContext } from "@/contexts/SideBarProvider";
 import { ToastContext } from "@/contexts/ToastProvider";
 import { addProductToCart } from "@/apis/cartService";
 import LoadingTextCommon from "@components/LoadingTextCommon/LoadingTextCommon";
+import { LiaShoppingBagSolid } from "react-icons/lia";
+import { CiHeart } from "react-icons/ci";
+import { TfiReload } from "react-icons/tfi";
+import { LiaEyeSolid } from "react-icons/lia";
 
 function ProductItem({
   src,
@@ -37,17 +38,20 @@ function ProductItem({
     isActiveSize,
     btnClear,
   } = styles;
-
-  // const { isShowGrid } = useContext(OurShopContext);
-  // console.log(isShowGrid);
   const [sizeChoose, setSizeChoose] = useState("");
   const ourShopContext = useContext(OurShopContext);
   const [isShowGrid, setIsShowGrid] = useState(ourShopContext?.isShowGrid);
   const userId = Cookies.get("userId");
-  const { setIsOpen, setType, handleGetListProductCart, listProductCart } =
+  const { setIsOpen, setType, handleGetListProductCart, setDetailProduct } =
     useContext(SideBarContext);
   const { toast } = useContext(ToastContext);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleShowProductSidebar = () => {
+    setIsOpen(true);
+    setType("detail");
+    setDetailProduct(details);
+  };
 
   useEffect(() => {
     if (isHomePage) {
@@ -108,16 +112,16 @@ function ProductItem({
 
         <div className={showFuncWhenHover}>
           <div className={boxIcon}>
-            <img src={cartIcon} alt="" />
+            <LiaShoppingBagSolid style={{ fontSize: "23px" }} />
           </div>
           <div className={boxIcon}>
-            <img src={heartIcon} alt="" />
+            <CiHeart style={{ fontSize: "25px" }} />
           </div>
           <div className={boxIcon}>
-            <img src={reloadIcon} alt="" />
+            <TfiReload style={{ fontSize: "18px" }} />
           </div>
-          <div className={boxIcon}>
-            <img src={cartIcon} alt="" />
+          <div className={boxIcon} onClick={handleShowProductSidebar}>
+            <LiaEyeSolid style={{ fontSize: "20px" }} />
           </div>
         </div>
       </div>
