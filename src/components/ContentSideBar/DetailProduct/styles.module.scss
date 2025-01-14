@@ -28,6 +28,10 @@
       border: 1px solid #e1e1e1;
       font-size: 12px;
       cursor: pointer;
+      &:hover {
+        border: 1px solid variables.$primary_color;
+        transition: 300ms;
+      }
     }
     .isActive{
       border: 1px solid variables.$primary_color;
