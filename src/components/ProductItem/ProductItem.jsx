@@ -12,6 +12,7 @@ import { LiaShoppingBagSolid } from "react-icons/lia";
 import { CiHeart } from "react-icons/ci";
 import { TfiReload } from "react-icons/tfi";
 import { LiaEyeSolid } from "react-icons/lia";
+import { useNavigate } from "react-router-dom";
 
 function ProductItem({
   src,
@@ -46,11 +47,16 @@ function ProductItem({
     useContext(SideBarContext);
   const { toast } = useContext(ToastContext);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleShowProductSidebar = () => {
     setIsOpen(true);
     setType("detail");
     setDetailProduct(details);
+  };
+  const handleNavigateToDetail = () => {
+    const path = `/product/${details._id}`;
+    navigate(path);
   };
 
   useEffect(() => {
@@ -105,8 +111,11 @@ function ProductItem({
       });
   };
   return (
-    <div className={isShowGrid ? "" : containerItem}>
-      <div className={boxImg}>
+    <div
+      className={isShowGrid ? "" : containerItem}
+      style={{ cursor: "pointer" }}
+    >
+      <div className={boxImg} onClick={handleNavigateToDetail}>
         <img src={src} alt="" />
         <img src={prevSrc} alt="" className={showImgWhenHover} />
 

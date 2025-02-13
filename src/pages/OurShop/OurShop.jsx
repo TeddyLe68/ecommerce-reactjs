@@ -31,7 +31,7 @@ function OurShop() {
                 handleBackPreviousPage();
               }}
             >
-              &lt; Return to previous page{" "}
+              &lt; Return to previous page
             </div>
           </div>
         </div>
