@@ -5,7 +5,26 @@ import Button from "@components/Button/Button";
 import { CiHeart } from "react-icons/ci";
 import { TfiReload } from "react-icons/tfi";
 import PaymentMethod from "@components/PaymentMethods/PaymentMethods";
+import AccordionMenu from "@components/AccordionMenu";
+import { useState } from "react";
 function DetailProduct() {
+  const [isSelectedAccordion, setIsSelectedAccordion] = useState(1);
+  const dataAccordionMenu = [
+    {
+      id: 1,
+      titleAccordionMenu: "ADDITIONAL INFORMATION",
+      contentAccordionMenu: <div>Content additional information</div>,
+    },
+    {
+      id: 2,
+      titleAccordionMenu: "REVIEWS",
+      contentAccordionMenu: <div>Content reviews</div>,
+    },
+  ];
+
+  const handleToggleAccordion = (id) => {
+    setIsSelectedAccordion(id);
+  };
   const {
     container,
     navigateSection,
@@ -119,6 +138,15 @@ function DetailProduct() {
                   Category: <span>Men</span>
                 </div>
               </div>
+              {dataAccordionMenu.map((item, index) => (
+                <AccordionMenu
+                  key={index}
+                  titleAccordion={item.titleAccordionMenu}
+                  contentAccordion={item.contentAccordionMenu}
+                  onClick={() => handleToggleAccordion(item.id)}
+                  isSelected={isSelectedAccordion === item.id}
+                />
+              ))}
             </div>
           </div>
         </MainLayout>
