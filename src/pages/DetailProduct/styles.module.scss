@@ -12,7 +12,7 @@
     .contentSection{
       @include mixins.flex_box_custom(unset, flex-start, 20px);
       .imageBox{
-        
+
         max-width: 610px;
         width: 100%;
 
@@ -128,11 +128,105 @@
         margin: 20px 0px;
         flex-direction: column;
         color: variables.$four_color;
-        
+
         span{
           color: variables.$secondary_color;
         }
       }
     }
-      
+
+}
+
+.containerInfo{
+  font-weight: 300;
+  div:last-child{
+    border-bottom: unset;
+    }
+  .itemInfo{
+    @include mixins.flex_box_custom(flex-start, center, 0px);
+
+    border-bottom: 1px solid #e1e1e1;
+    padding: 15px 0px;
+
+    div{
+      width: 50%;
+    }
+    .title{
+      color: variables.$secondary_color;
+    }
+    .content{
+      color: variables.$thr_color;
+    }
+  }
+}
+
+.containerReview{
+  .reviews{
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e1e1e1;
+  }
+  .noReview{
+    font-size: 14px;
+    color: variables.$thr_color;
+    margin-bottom: 20px;
+  }
+  .replyForm{
+    padding-top: 30px;
+    .replyTitle{
+      font-size: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #e1e1e1;
+      color: variables.$thr_color;
+    }
+    .commentNotes{
+      font-size: 14px;
+      color: variables.$thr_color;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      .commentFormCookiesConsent{
+        display: flex;
+        align-items: flex-start;
+        gap: 5px;
+        input{
+          margin-top: 2px;
+        }
+        span{
+          color: variables.$thr_color;
+        }
+      }
+      .btnSubmit{
+        width: 100%;
+        max-width: 100px;
+
+      }
+    }
+  }
+}
+.formItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  label {
+    color: variables.$thr_color;
+    span {
+      color: #c62828;
+    }
+  }
+  .boxItemStar {
+    display: flex;
+    gap: 25px;
+  }
+  input,textarea {
+    border: 1px solid #e1e1e1;
+    padding: 8px 15px;
+    outline :none;
+    &:focus {
+      border: 1px solid variables.$secondary_color;
+    }
+  }
 }

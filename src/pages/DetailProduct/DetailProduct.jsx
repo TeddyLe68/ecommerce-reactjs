@@ -7,18 +7,21 @@ import { TfiReload } from "react-icons/tfi";
 import PaymentMethod from "@components/PaymentMethods/PaymentMethods";
 import AccordionMenu from "@components/AccordionMenu";
 import { useState } from "react";
+import InformationProduct from "./Information";
+import ReviewProducts from "./Reviews";
+import MyFooter from "@components/Footer/Footer";
 function DetailProduct() {
   const [isSelectedAccordion, setIsSelectedAccordion] = useState(1);
   const dataAccordionMenu = [
     {
       id: 1,
       titleAccordionMenu: "ADDITIONAL INFORMATION",
-      contentAccordionMenu: <div>Content additional information</div>,
+      contentAccordionMenu: <InformationProduct />,
     },
     {
       id: 2,
       titleAccordionMenu: "REVIEWS",
-      contentAccordionMenu: <div>Content reviews</div>,
+      contentAccordionMenu: <ReviewProducts />,
     },
   ];
 
@@ -149,8 +152,13 @@ function DetailProduct() {
               ))}
             </div>
           </div>
+
+          <div>
+            <h2>Related Products</h2>
+          </div>
         </MainLayout>
       </div>
+      <MyFooter />
     </div>
   );
 }

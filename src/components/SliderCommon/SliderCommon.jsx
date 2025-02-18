@@ -4,8 +4,9 @@ import Slider from "react-slick";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import "./styles.css";
+import ProductItem from "@components/ProductItem/ProductItem";
 
-function SilderCommon({ data }) {
+function SilderCommon({ data, isProductItem = false }) {
   var settings = {
     dots: false,
     infinite: true,
@@ -17,8 +18,15 @@ function SilderCommon({ data }) {
   };
   return (
     <Slider {...settings}>
-      {data.map((src, index) => {
-        return <img key={index} src={src} alt="test" />;
+      {data.map((item, index) => {
+        return;
+        <>
+          {isProductItem ? (
+            <ProductItem />
+          ) : (
+            <img key={index} src={item} alt="test" />
+          )}
+        </>;
       })}
     </Slider>
   );
