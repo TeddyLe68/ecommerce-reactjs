@@ -21,6 +21,7 @@ function ProductItem({
   price,
   details,
   isHomePage = true,
+  slideItem = false,
 }) {
   const {
     boxImg,
@@ -110,6 +111,12 @@ function ProductItem({
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (slideItem) {
+      setIsShowGrid(true);
+    }
+  }, [slideItem]);
   return (
     <div
       className={isShowGrid ? "" : containerItem}
@@ -134,7 +141,10 @@ function ProductItem({
           </div>
         </div>
       </div>
-      <div className={isShowGrid ? "" : content}>
+      <div
+        className={isShowGrid ? "" : content}
+        style={{ marginTop: slideItem && "10px" }}
+      >
         {!isHomePage && (
           <div className={boxSize}>
             {details.size.map((item, index) => {

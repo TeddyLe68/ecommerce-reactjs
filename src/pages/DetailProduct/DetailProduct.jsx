@@ -10,6 +10,7 @@ import { useState } from "react";
 import InformationProduct from "./Information";
 import ReviewProducts from "./Reviews";
 import MyFooter from "@components/Footer/Footer";
+import SliderCommon from "@/components/SliderCommon/SliderCommon.jsx";
 function DetailProduct() {
   const [isSelectedAccordion, setIsSelectedAccordion] = useState(1);
   const dataAccordionMenu = [
@@ -46,6 +47,30 @@ function DetailProduct() {
     addFunction,
     info,
   } = styles;
+
+  const tempDataSlider = [
+    {
+      image:
+        "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg",
+      name: "10K Yellow Gold",
+      price: "$99.99",
+      size: [{ name: "L" }, { name: "M" }, { name: "S" }],
+    },
+    {
+      image:
+        "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg",
+      name: "10K Yellow Gold",
+      price: "$99.99",
+      size: [{ name: "L" }, { name: "M" }, { name: "S" }],
+    },
+    {
+      image:
+        "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg",
+      name: "10K Yellow Gold",
+      price: "$99.99",
+      size: [{ name: "L" }, { name: "M" }, { name: "S" }],
+    },
+  ];
   return (
     <div>
       <MyHeader />
@@ -155,6 +180,11 @@ function DetailProduct() {
 
           <div>
             <h2>Related Products</h2>
+            <SliderCommon
+              data={tempDataSlider}
+              isProductItem={true}
+              showItem={4}
+            />
           </div>
         </MainLayout>
       </div>
