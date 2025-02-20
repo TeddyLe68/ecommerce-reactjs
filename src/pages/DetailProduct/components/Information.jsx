@@ -1,4 +1,4 @@
-import styles from "./styles.module.scss";
+import styles from "../styles.module.scss";
 function InformationProduct() {
   const { itemInfo, containerInfo, title, content } = styles;
   const dataInformation = [

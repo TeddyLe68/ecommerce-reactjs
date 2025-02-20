@@ -1,6 +1,6 @@
 import Button from "@components/Button/Button";
 import FormItem from "./FormItem";
-import styles from "./styles.module.scss";
+import styles from "../styles.module.scss";
 
 function ReviewProducts() {
   const {

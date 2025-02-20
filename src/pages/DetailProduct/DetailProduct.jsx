@@ -7,10 +7,18 @@ import { TfiReload } from "react-icons/tfi";
 import PaymentMethod from "@components/PaymentMethods/PaymentMethods";
 import AccordionMenu from "@components/AccordionMenu";
 import { useState } from "react";
-import InformationProduct from "./Information";
-import ReviewProducts from "./Reviews";
+import InformationProduct from "./components/Information";
+import ReviewProducts from "./components/Reviews";
 import MyFooter from "@components/Footer/Footer";
 import SliderCommon from "@/components/SliderCommon/SliderCommon.jsx";
+import ReactImageMagnifier from "simple-image-magnifier/react";
+import cls from "classnames";
+
+const tempDataSize = [
+  { name: "L", amount: "1000" },
+  { name: "M", amount: "1000" },
+  { name: "S", amount: "1000" },
+];
 function DetailProduct() {
   const [isSelectedAccordion, setIsSelectedAccordion] = useState(1);
   const dataAccordionMenu = [
@@ -46,6 +54,9 @@ function DetailProduct() {
     orFunction,
     addFunction,
     info,
+    active,
+    clear,
+    disableSelectedBtn,
   } = styles;
 
   const tempDataSlider = [
@@ -71,6 +82,38 @@ function DetailProduct() {
       size: [{ name: "L" }, { name: "M" }, { name: "S" }],
     },
   ];
+  const INCREASEMENT = "increasement";
+  const DECREASEMENT = "decreasement";
+  const dataImage = [
+    "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg",
+    "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.2-min.jpg",
+    "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.3-min.jpg",
+    "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.4-min.jpg",
+  ];
+
+  const [isSelectedSize, setIsSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const handleSelectSize = (size) => {
+    setIsSelectedSize(size);
+  };
+  const handleRenderImage = (src) => {
+    return (
+      <ReactImageMagnifier
+        srcPreview={src}
+        srcOriginal={src}
+        width={295}
+        height={350}
+      />
+    );
+  };
+
+  const handleClear = () => {
+    setIsSelectedSize("");
+  };
+  const handleSetQuantity = (type) => {
+    if (quantity <= 1 && type === DECREASEMENT) return;
+    setQuantity((prev) => (type === INCREASEMENT ? prev + 1 : prev - 1));
+  };
   return (
     <div>
       <MyHeader />
@@ -84,27 +127,12 @@ function DetailProduct() {
               {"<"} Return to previous page
             </div>
           </div>
-
           <div className={contentSection}>
+            {/* image of product */}
             <div className={imageBox}>
-              <img
-                src="https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg"
-                alt="xyz"
-              />
-              <img
-                src="https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg"
-                alt="xyz"
-              />
-              <img
-                src="https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg"
-                alt="xyz"
-              />
-              <img
-                src="https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg"
-                alt="xyz"
-              />
+              {dataImage.map((item) => handleRenderImage(item))}
             </div>
-
+            {/* title and description */}
             <div className={infoBox}>
               <h1>10K Yellow Gold</h1>
               <p className={price}>$99.99</p>
@@ -113,22 +141,44 @@ function DetailProduct() {
                 arcu purus orci leo.
               </p>
 
-              <p className={titleSize}>Size</p>
+              {/* display size */}
+              <p className={titleSize}>Size {isSelectedSize}</p>
               <div className={boxSize}>
-                <div className={size}>L</div>
-                <div className={size}>L</div>
-                <div className={size}>L</div>
+                {tempDataSize.map((item, index) => {
+                  return (
+                    <div
+                      className={cls(size, {
+                        [active]: isSelectedSize === item.name,
+                      })}
+                      key={index}
+                      onClick={() => handleSelectSize(item.name)}
+                    >
+                      {item.name}
+                    </div>
+                  );
+                })}
               </div>
 
+              {/* clear size function */}
+              {isSelectedSize && (
+                <p className={clear} onClick={handleClear}>
+                  Clear
+                </p>
+              )}
+              {/* increase, descrease quantity of product */}
               <div className={functionInfo}>
                 <div className={incrementAmount}>
-                  <div>-</div>
-                  <div>1</div>
-                  <div>+</div>
+                  <div onClick={() => handleSetQuantity(DECREASEMENT)}>-</div>
+                  <div>{quantity}</div>
+                  <div onClick={() => handleSetQuantity(INCREASEMENT)}>+</div>
                 </div>
 
+                {/* button add to cart */}
                 <div className={boxBtn}>
-                  <Button content={"Add to cart"} />
+                  <Button
+                    content={"Add to cart"}
+                    customClassname={!isSelectedSize && disableSelectedBtn}
+                  />
                 </div>
               </div>
 
@@ -139,7 +189,10 @@ function DetailProduct() {
               </div>
 
               <div>
-                <Button content={"Buy Now"} />
+                <Button
+                  content={"Buy Now"}
+                  customClassname={!isSelectedSize && disableSelectedBtn}
+                />
               </div>
 
               <div className={addFunction}>

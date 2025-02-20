@@ -1,5 +1,5 @@
 import { FaStar } from "react-icons/fa6";
-import styles from "./styles.module.scss";
+import styles from "../styles.module.scss";
 function FormItem({ label, isRequired, typeChildren }) {
   const { formItem, boxItemStar } = styles;
 
