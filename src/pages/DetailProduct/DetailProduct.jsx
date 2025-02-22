@@ -6,13 +6,15 @@ import { CiHeart } from "react-icons/ci";
 import { TfiReload } from "react-icons/tfi";
 import PaymentMethod from "@components/PaymentMethods/PaymentMethods";
 import AccordionMenu from "@components/AccordionMenu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InformationProduct from "./components/Information";
 import ReviewProducts from "./components/Reviews";
 import MyFooter from "@components/Footer/Footer";
 import SliderCommon from "@/components/SliderCommon/SliderCommon.jsx";
 import ReactImageMagnifier from "simple-image-magnifier/react";
 import cls from "classnames";
+import { getDetailProduct } from "@/apis/productService";
+import { useParams } from "react-router-dom";
 
 const tempDataSize = [
   { name: "L", amount: "1000" },
@@ -20,6 +22,7 @@ const tempDataSize = [
   { name: "S", amount: "1000" },
 ];
 function DetailProduct() {
+  const [idLoading, setIsLoading] = useState(false);
   const [isSelectedAccordion, setIsSelectedAccordion] = useState(1);
   const dataAccordionMenu = [
     {
@@ -59,6 +62,27 @@ function DetailProduct() {
     disableSelectedBtn,
   } = styles;
 
+  const param = useParams();
+  // pass data
+  const [data, setData] = useState();
+  const fetchDataDetaoiProduct = async (id) => {
+    setIsLoading(true);
+    try {
+      const data = await getDetailProduct(id);
+      setData(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (param.id) {
+      fetchDataDetaoiProduct(param.id);
+    }
+  }, [param]);
+  // console.log(data);
+
   const tempDataSlider = [
     {
       image:
@@ -82,8 +106,7 @@ function DetailProduct() {
       size: [{ name: "L" }, { name: "M" }, { name: "S" }],
     },
   ];
-  const INCREASEMENT = "increasement";
-  const DECREASEMENT = "decreasement";
+  // handle image of product
   const dataImage = [
     "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg",
     "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.2-min.jpg",
@@ -91,11 +114,6 @@ function DetailProduct() {
     "https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.4-min.jpg",
   ];
 
-  const [isSelectedSize, setIsSelectedSize] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const handleSelectSize = (size) => {
-    setIsSelectedSize(size);
-  };
   const handleRenderImage = (src) => {
     return (
       <ReactImageMagnifier
@@ -107,9 +125,19 @@ function DetailProduct() {
     );
   };
 
+  // handle size of product
+  const [isSelectedSize, setIsSelectedSize] = useState("");
+  const handleSelectSize = (size) => {
+    setIsSelectedSize(size);
+  };
+  // clear size of product
   const handleClear = () => {
     setIsSelectedSize("");
   };
+  // handle quantity of product
+  const INCREASEMENT = "increasement";
+  const DECREASEMENT = "decreasement";
+  const [quantity, setQuantity] = useState(1);
   const handleSetQuantity = (type) => {
     if (quantity <= 1 && type === DECREASEMENT) return;
     setQuantity((prev) => (type === INCREASEMENT ? prev + 1 : prev - 1));
