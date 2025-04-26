@@ -13,6 +13,7 @@ import { CiHeart } from "react-icons/ci";
 import { TfiReload } from "react-icons/tfi";
 import { LiaEyeSolid } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
+import { handleAddProductToCart } from "@/utils/helper";
 
 function ProductItem({
   src,
@@ -77,39 +78,17 @@ function ProductItem({
   };
 
   const handleAddToCart = () => {
-    if (!userId) {
-      setIsOpen(true);
-      setType("login");
-      toast.warning("Please login to add product to cart!", {
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (!sizeChoose) {
-      toast.warning("Please choose size!", {
-        position: "bottom-right",
-      });
-      return;
-    }
-    const data = {
+    handleAddProductToCart(
       userId,
-      productId: details._id,
-      quantity: 1,
-      size: sizeChoose,
-    };
-    setIsLoading(true);
-    addProductToCart(data)
-      .then((res) => {
-        setIsOpen(true);
-        setType("cart");
-        toast.success("Add product to cart successfully!");
-        setIsLoading(false);
-        handleGetListProductCart("cart", userId);
-      })
-      .catch((err) => {
-        toast.error("Add product to cart failed!");
-        setIsLoading(false);
-      });
+      sizeChoose,
+      details._id,
+      setIsOpen,
+      setType,
+      toast,
+      1,
+      setIsLoading,
+      handleGetListProductCart
+    );
   };
 
   useEffect(() => {

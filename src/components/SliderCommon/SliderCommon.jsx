@@ -19,13 +19,14 @@ function SilderCommon({ data, isProductItem = false, showItem = 1 }) {
   return (
     <Slider {...settings}>
       {data.map((item, index) => {
+        const src = !item.image ? item.images[0] : item.image;
         return (
           <>
             {isProductItem ? (
               <ProductItem
                 key={index}
-                src={item.image}
-                prevSrc={item.image}
+                src={src}
+                prevSrc={src}
                 name={item.name}
                 price={item.price}
                 details={item}
