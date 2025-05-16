@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { handleAddProductToCart } from "@/utils/helper";
 import { SideBarContext } from "@/contexts/SideBarProvider";
 import Cookies from "js-cookie";
+import { addProductToCart } from "@/apis/cartService";
 
 function DetailProduct() {
   const [isLoading, setIsLoading] = useState(false);
@@ -73,6 +74,7 @@ function DetailProduct() {
       const data = await getDetailProduct(id);
       setData(data);
       setIsLoading(false);
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       toast.error("Error when loading data");
       setData([]);
@@ -95,6 +97,7 @@ function DetailProduct() {
       const data = await getRalatedProducts(id);
       setRelatedData(data);
       setIsLoading(false);
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       toast.error("Error when loading data");
       setRelatedData([]);
@@ -151,6 +154,27 @@ function DetailProduct() {
       setIsLoadingBtn,
       handleGetListProductCart
     );
+  };
+
+  const [isLoadingBtnBuyNow, setIsLoadingBtnBuyNow] = useState(false);
+  const handleBuyNow = () => {
+    const data = {
+      userId,
+      productId: param.id,
+      quantity,
+      size: isSelectedSize,
+    };
+    setIsLoadingBtnBuyNow(true);
+    addProductToCart(data)
+      .then((res) => {
+        toast.success("Add product to cart successfully!");
+        setIsLoadingBtnBuyNow(false);
+        navigate("/cart");
+      })
+      .catch((err) => {
+        toast.error("Add product to cart failed!");
+        setIsLoadingBtnBuyNow(false);
+      });
   };
 
   return (
@@ -252,8 +276,11 @@ function DetailProduct() {
 
                     <div>
                       <Button
-                        content={"Buy Now"}
+                        content={
+                          isLoadingBtnBuyNow ? <LoadingTextCommon /> : "Buy Now"
+                        }
                         customClassname={!isSelectedSize && disableSelectedBtn}
+                        onClick={handleBuyNow}
                       />
                     </div>
 

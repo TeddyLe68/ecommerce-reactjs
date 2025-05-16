@@ -2,11 +2,12 @@ import Button from "@components/Button/Button";
 import styles from "../../styles.module.scss";
 import CartSummary from "./CartSummary";
 import CartTable from "./CartTable";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SideBarContext } from "@/contexts/SideBarProvider";
 import { addProductToCart, deleteItem, deleteCart } from "@/apis/cartService";
 import { PiShoppingCart } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import { getCart } from "@/apis/cartService";
 function Content() {
   const {
     containerContent,
@@ -23,6 +24,7 @@ function Content() {
     isLoading,
     setIsLoading,
     userId,
+    setListProductCart,
   } = useContext(SideBarContext);
   const handleReplaceQuantity = (data) => {
     setIsLoading(true);
@@ -61,6 +63,19 @@ function Content() {
   const handleNavigateToShop = () => {
     navigate("/shop");
   };
+  useEffect(() => {
+    if (userId) {
+      getCart(userId)
+        .then((res) => {
+          setListProductCart(res.data.data);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setListProductCart([]);
+          setIsLoading(false);
+        });
+    }
+  }, []);
   return (
     <>
       {listProductCart.length > 0 && userId ? (

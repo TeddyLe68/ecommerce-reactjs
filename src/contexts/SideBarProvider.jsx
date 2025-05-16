@@ -39,11 +39,9 @@ export const SidebarProvider = ({ children }) => {
     userId,
     detailProduct,
     setDetailProduct,
+    setListProductCart,
   };
 
-  useEffect(() => {
-    handleGetListProductCart("cart", userId);
-  }, []);
   return (
     <SideBarContext.Provider value={value}>{children}</SideBarContext.Provider>
   );
