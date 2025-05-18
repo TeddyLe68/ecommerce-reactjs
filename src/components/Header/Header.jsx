@@ -50,7 +50,7 @@ function MyHeader() {
     ? listProductCart.reduce((acc, items) => {
         return acc + items.quantity;
       }, 0)
-    : 0;
+    : "0";
 
   useEffect(() => {
     setFixedPosition(scrollPosition > 80 ? true : false);
