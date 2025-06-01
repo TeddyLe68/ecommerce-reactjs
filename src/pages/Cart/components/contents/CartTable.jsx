@@ -33,8 +33,8 @@ function CartTable({ listProductCart, getData, isLoading, getDataDelete }) {
           </tr>
         </thead>
         <tbody>
-          {listProductCart.map((item) => (
-            <tr key={item.id}>
+          {listProductCart.map((item, index) => (
+            <tr key={index}>
               <td>
                 <img src={item.images[0]} alt={item.name} />
                 <div>

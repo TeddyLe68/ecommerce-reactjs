@@ -13,8 +13,8 @@ function MyFooter() {
         />
       </div>
       <div className={boxNav}>
-        {dataMenu.map((item) => (
-          <div key={item.id}>{item.content}</div>
+        {dataMenu.map((item, index) => (
+          <div key={index}>{item.content}</div>
         ))}
       </div>
       <div>

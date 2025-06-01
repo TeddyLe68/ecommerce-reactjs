@@ -1,9 +1,11 @@
+import React, { useContext } from "react";
 import styles from "../../styles.module.scss";
 import Stepper from "./Stepper";
+import { StepContext } from "@/contexts/StepProvider";
 
 function Steps() {
   const { containerSteps, steps, line, textNoti } = styles;
-
+  const { currentStep, setCurrentStep } = useContext(StepContext);
   const dataSteps = [
     { number: 1, content: "SHOPPING CART" },
     { number: 2, content: "CHECKOUT" },
@@ -15,15 +17,15 @@ function Steps() {
       <div className={steps}>
         {dataSteps.map((item, index) => {
           return (
-            <>
+            <React.Fragment key={index}>
               <Stepper
-                key={index}
                 number={item.number}
                 content={item.content}
-                isDisabled={index !== 0}
+                isDisabled={index >= currentStep}
+                setCurrentStep={setCurrentStep}
               />
               {index !== dataSteps.length - 1 && <div className={line} />}
-            </>
+            </React.Fragment>
           );
         })}
       </div>

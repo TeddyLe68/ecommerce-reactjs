@@ -1,10 +1,10 @@
+import { SideBarContext } from "@/contexts/SideBarProvider";
 import Button from "@components/Button/Button";
-import styles from "../../styles.module.scss";
+import PaymentMethod from "@components/PaymentMethods/PaymentMethods";
 import cls from "classnames";
 import { useContext } from "react";
-import { SideBarContext } from "@/contexts/SideBarProvider";
+import styles from "../../styles.module.scss";
 import LoadingCart from "../Loading";
-import PaymentMethod from "@components/PaymentMethods/PaymentMethods";
 function CartSummary() {
   const {
     containerSummary,
