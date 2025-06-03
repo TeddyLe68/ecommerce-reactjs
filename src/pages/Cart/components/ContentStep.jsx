@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { StepContext } from "@/contexts/StepProvider";
 import Content from "./contents/Content";
+import Checkout from "./Checkout/Checkout";
 
 function ContentStep() {
   const { currentStep } = useContext(StepContext);
@@ -10,7 +11,7 @@ function ContentStep() {
       case 1:
         return <Content />;
       case 2:
-        return "Step 2: Review Cart";
+        return <Checkout />;
       case 3:
         return "Step 3: Checkout";
     }
